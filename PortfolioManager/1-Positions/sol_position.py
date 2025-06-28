@@ -20,7 +20,7 @@ if module_path not in sys.path:
 
 from interfaces.securityInterface import securityInterface
 from interfaces.positionInterface import positionInterface
-from implementations.securitySolution import security
+#rom implementations.securitySolution import security
 
 class position(positionInterface):
     def __init__(self, securityIn, initialPosition: int) -> None:
