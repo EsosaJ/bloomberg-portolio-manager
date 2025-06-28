@@ -24,27 +24,17 @@ from implementations.securitySolution import security
 
 class position(positionInterface):
     def __init__(self, securityIn, initialPosition: int) -> None:
-        super().__init__(securityIn, initialPosition)
-        self.m_PositionValue = initialPosition
-
-        if isinstance(securityIn, securityInterface):
-            self.m_security = securityIn
-        else:
-            self.m_security = security(securityIn)
-        
-    def getSecurity(self) -> securityInterface:
-        return self.m_security
+        pass
     
+    def getSecurity(self) -> securityInterface:
+        pass
+
     def getPosition(self) -> int:
-        return self.m_PositionValue
+        pass
     
     def setPosition(self, inputValue: int) -> None:
-        if inputValue < 0:
-            raise Exception("Position update would cause a short position!")
-        self.m_PositionValue = inputValue 
-
+        pass
+    
+    #Add an integer amount to the current position.
     def addPosition(self, inputValue: int) -> None:
-        if self.m_PositionValue + inputValue < 0:
-            raise Exception("Position update would cause a short position!") 
-
-        self.m_PositionValue += inputValue
+        pass

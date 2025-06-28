@@ -27,3 +27,6 @@ class security(securityInterface):
         
     def getName(self) -> str:
         return self.m_name
+    
+    def __str__(self):
+        return f"String{self.m_name}" 
