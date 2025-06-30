@@ -19,6 +19,8 @@ class position(positionInterface):
     
     #Add an integer amount to the current position.
     def addPosition(self, inputValue: int) -> None:
+        if self.initialPosition + inputValue < 0:
+            raise Exception("Shares cannot be negative")
         self.initialPosition += inputValue # Client has bought more shares or sold shares 
 
     
