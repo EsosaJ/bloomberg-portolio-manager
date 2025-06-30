@@ -24,17 +24,20 @@ from interfaces.positionInterface import positionInterface
 
 class position(positionInterface):
     def __init__(self, securityIn, initialPosition: int) -> None:
-        pass
+        self.securityIn = securityIn
+        self.initialPosition = initialPosition
     
     def getSecurity(self) -> securityInterface:
-        pass
+        return self.securityIn
 
     def getPosition(self) -> int:
-        pass
+        return self.initialPosition
     
     def setPosition(self, inputValue: int) -> None:
-        pass
+        self.initialPosition = inputValue # amount of shares client has bought 
     
     #Add an integer amount to the current position.
     def addPosition(self, inputValue: int) -> None:
-        pass
+        if inputValue < 0:
+            raise ValueError("Cannot buy negative shares")
+        self.initialPosition += inputValue # Client has bought more shares 
