@@ -24,5 +24,40 @@ from interfaces.positionInterface import positionInterface
 from typing import Any, Dict, Set, Iterable
 
 class account(accountInterface):
+# Accounts groups multiple posiitons in one 
+    def __init__(self, positions: Set[positionInterface], accountName: str) -> None:
+        self.accountName = accountName
+        self.positions = set()
+
+    #Return the account's name
     def getName(self) -> str:
+        return self.accountName
+
+    #Return all positions currently within the account
+    def getAllPositions(self) -> Iterable[positionInterface]:
+        #check if set is empty
+        if not self.positions:
+            raise Exception("Account is empty")
+        #return positions as a list 
+        return list(self.positions)
+
+    #Return all positions that contain a security in a given input set
+    def getPositions(self, securities: Set) -> Dict[Any, positionInterface]:
+        #set securities to a position object
+        result = {}
+        # get the string from set
+        for security in self.positions: 
+        #  check the string in securities 
+         if security in securities:
+             result[security] = self.positions[security]
+        #   set of securities is given and go through the original set 
+         return result   
+            
+
+    #Add positions to the account
+    def addPositions(self, positions: Set[positionInterface]) -> None:
+        pass
+    
+    #Remove a number of positions from this account if they represent a security in a given input set
+    def removePositions(self, securities: Set) -> None:
         pass
