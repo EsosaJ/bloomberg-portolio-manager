@@ -38,12 +38,12 @@ class position(positionInterface):
     
     #Add an integer amount to the current position.
     def addPosition(self, inputValue: int) -> None:
-        # inputValue = int(inputValue) 
-        # print(f"DEBUG: Current position: {self.initialPosition}, incoming: {inputValue}")
-        # if self.initialPosition + inputValue < 0:
-        #     print("RAISING EXCEPTION NOW!")
-        raise ValueError("Shares cannot be negative")
-        # self.initialPosition += inputValue # Client has bought more shares or sold shares 
+        inputValue = int(inputValue) 
+        print(f"DEBUG: Current position: {self.initialPosition}, incoming: {inputValue}")
+        if self.initialPosition + inputValue < 0:
+            print("RAISING EXCEPTION NOW!")
+            raise ValueError("Shares cannot be negative")
+        self.initialPosition += inputValue # Client has bought more shares or sold shares 
 
 
     def __str__(self):
