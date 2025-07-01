@@ -27,7 +27,7 @@ class account(accountInterface):
 # Accounts groups multiple posiitons in one 
     def __init__(self, positions: Set[positionInterface], accountName: str) -> None:
         self.accountName = accountName
-        self.positions = set()
+        self.positions = positions
 
     #Return the account's name
     def getName(self) -> str:
@@ -46,12 +46,12 @@ class account(accountInterface):
         #set securities to a position object
         result = {}
         # get the string from set
-        for security in self.positions: 
-        #  check the string in securities 
-         if security in securities:
-             result[security] = self.positions[security]
-        #   set of securities is given and go through the original set 
-         return result   
+        for position in self.positions: 
+           security = position.getSecurity()
+           if security in securities:
+               result[security] = position
+        #set security to the position object 
+        return result
             
 
     #Add positions to the account
