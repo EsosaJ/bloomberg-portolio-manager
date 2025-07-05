@@ -14,13 +14,13 @@
 
 import os
 import sys
-module_path = os.path.abspath('..')
-if module_path not in sys.path:
-    sys.path.append(module_path)
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'PortfolioManager')))
+
+import pytest
 from implementations.securitySolution import security
 from implementations.positionSolution import position
-import implementations.accountSolution
+from implementations.accountsSolution import accounts
 
 def test_getAccountName():
     #GIVEN
@@ -28,7 +28,7 @@ def test_getAccountName():
     EXPECTED_POSITIONS = set()
 
     #WHEN 
-    testObj = implementations.accountSolution.account(EXPECTED_POSITIONS, EXPECTED_NAME)
+    testObj = accounts(EXPECTED_POSITIONS, EXPECTED_NAME)
 
     #EXPECT 
     assert(testObj.getName() == EXPECTED_NAME)
@@ -41,7 +41,7 @@ def test_getAllPositions():
     EXPECTED_POSITIONS.add(position("TEST_SEC_B", 2000))
 
     #WHEN 
-    testObj = implementations.accountSolution.account(EXPECTED_POSITIONS, EXPECTED_NAME)
+    testObj = accounts(EXPECTED_POSITIONS, EXPECTED_NAME)
     returnPosItr = testObj.getAllPositions()
 
     #EXPECT
@@ -68,7 +68,7 @@ def test_getPositions():
     }
 
     #WHEN 
-    testObj = implementations.accountSolution.account(EXPECTED_POSITIONS, EXPECTED_NAME)
+    testObj = accounts(EXPECTED_POSITIONS, EXPECTED_NAME)
     returnPosItr = testObj.getPositions(KEY_LIST)
 
     #EXPECT
@@ -95,7 +95,7 @@ def test_addPositions():
     }
 
     #WHEN 
-    testObj = implementations.accountSolution.account(START_POSITIONS, EXPECTED_NAME)
+    testObj = accounts(START_POSITIONS, EXPECTED_NAME)
     testObj.addPositions(UPDATE_POSITIONS)
     returnPosItr = testObj.getAllPositions()
 
@@ -121,7 +121,7 @@ def test_removePositions():
     }
 
     #WHEN 
-    testObj = implementations.accountSolution.account(START_POSITIONS, EXPECTED_NAME)
+    testObj = accounts(START_POSITIONS, EXPECTED_NAME)
     testObj.removePositions(REMOVE_POSITIONS)
     returnPosItr = testObj.getAllPositions()
 

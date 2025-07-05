@@ -45,11 +45,20 @@ class account(accountInterface):
     def getPositions(self, securities: Set) -> Dict[Any, positionInterface]:
         #set securities to a position object
         result = {}
+        tickers = set()
+
+        for item in securities:
+            if isinstance(item, str): 
+                # if item is already a string
+                tickers.add(item)
+            else:
+                tickers.add(item.getName())
+
         # get the string from set
         for position in self.positions: 
-           security = position.getSecurity()
-           if security in securities:
-               result[security] = position
+           ticker = position.getSecurity().getName()
+           if ticker in tickers:
+               result[ticker] = position
         #set security to the position object 
         return result
             
