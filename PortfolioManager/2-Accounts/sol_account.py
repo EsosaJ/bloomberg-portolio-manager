@@ -42,31 +42,30 @@ class account(accountInterface):
         return list(self.positions)
 
     #Return all positions that contain a security in a given input set
-    def getPositions(self, securities: Set) -> Dict[Any, positionInterface]:
+    def getPositions(self, securities: Set[securityInterface]) -> Dict[Any, positionInterface]:
         #set securities to a position object
         result = {}
         tickers = set()
 
-        for item in securities:
-            if isinstance(item, str): 
-                # if item is already a string
-                tickers.add(item)
-            else:
-                tickers.add(item.getName())
-
-        # get the string from set
         for position in self.positions: 
-           ticker = position.getSecurity().getName()
-           if ticker in tickers:
-               result[ticker] = position
+            sec = position.getSecurity()
+            for s in securities:
+                if sec.getName == s.getName():
+                    result[sec] = position
+                    break 
+                # stop looking now 
         #set security to the position object 
         return result
             
 
     #Add positions to the account
     def addPositions(self, positions: Set[positionInterface]) -> None:
+        # if self.positions contains position then set position to that position 
+        #  else 
+        # add that position 
         pass
     
     #Remove a number of positions from this account if they represent a security in a given input set
     def removePositions(self, securities: Set) -> None:
+
         pass

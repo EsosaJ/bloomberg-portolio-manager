@@ -56,33 +56,44 @@ def test_getAllPositions():
     assert(len(EXPECTED_POSITIONS) == 0)
 
 def test_getPositions():
-    #GIVEN
+    # GIVEN
     EXPECTED_NAME = "MY TEST ACCOUNT"
     EXPECTED_POSITIONS = set()
-    EXPECTED_POSITIONS.add(position("TEST_SEC_A", 1000))
-    EXPECTED_POSITIONS.add(position("TEST_SEC_B", 2000))
-    KEY_LIST = [security("TEST_SEC_A"), "TEST_SEC_B", "TEST_NOT_FOUND_STR", security("TEST_NOT_FOUND_POS")]
+    EXPECTED_POSITIONS.add(position(security("TEST_SEC_A"), 1000))
+    EXPECTED_POSITIONS.add(position(security("TEST_SEC_B"), 2000))
+    
+    # Mixed input: security objects + strings
+    KEY_LIST = [
+        security("TEST_SEC_A"),       # security object
+        "TEST_SEC_B",                 # string name
+        "TEST_NOT_FOUND_STR",         # string name not in positions
+        security("TEST_NOT_FOUND_POS") # security object not in positions
+    ]
+
+    # Map expected keys (same types as in KEY_LIST) to expected positions
     EXPECTED_MAP = {
-        KEY_LIST[0] : position("TEST_SEC_A", 1000), 
-        KEY_LIST[1] : position("TEST_SEC_B", 2000),
+        KEY_LIST[0]: position(security("TEST_SEC_A"), 1000),  # security("TEST_SEC_A")
+        KEY_LIST[1]: position(security("TEST_SEC_B"), 2000),  # "TEST_SEC_B"
     }
 
-    #WHEN 
+    # WHEN
     testObj = accounts(EXPECTED_POSITIONS, EXPECTED_NAME)
     returnPosItr = testObj.getPositions(KEY_LIST)
 
-    #EXPECT
-    assert(len(returnPosItr) == len(KEY_LIST) - 2)
+    # EXPECT
+    assert len(returnPosItr) == len(KEY_LIST) - 2
     print(returnPosItr)
+
     for item in KEY_LIST:
         if isinstance(item, security) and "NOT_FOUND" in item.getName():
             assert item not in returnPosItr
         elif isinstance(item, str) and "NOT_FOUND" in item:
             assert item not in returnPosItr
         else:
-            assert(item in returnPosItr)
-            assert(returnPosItr[item].getSecurity().getName() == EXPECTED_MAP[item].getSecurity().getName())
-            assert(returnPosItr[item].getPosition() == EXPECTED_MAP[item].getPosition())
+            assert item in returnPosItr
+            assert returnPosItr[item].getSecurity().getName() == EXPECTED_MAP[item].getSecurity().getName()
+            assert returnPosItr[item].getPosition() == EXPECTED_MAP[item].getPosition()
+
 
 def test_addPositions():
     EXPECTED_NAME = "MY TEST ACCOUNT"

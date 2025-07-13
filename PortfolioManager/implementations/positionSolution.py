@@ -1,11 +1,15 @@
 
 from interfaces.securityInterface import securityInterface
 from interfaces.positionInterface import positionInterface
-#rom implementations.securitySolution import security
+from implementations.securitySolution import security
 
 class position(positionInterface):
     def __init__(self, securityIn, initialPosition: int) -> None:
-        self.securityIn = securityIn
+        if isinstance(securityIn, str):
+            self.securityIn = security(securityIn)
+        else:
+            self.securityIn = securityIn
+            
         self.initialPosition = initialPosition
     
     def getSecurity(self) -> securityInterface:
@@ -26,3 +30,6 @@ class position(positionInterface):
     
     def __str__(self):
         return f"Position: {self.initialPosition} shares of {self.securityIn}"
+    
+    
+
