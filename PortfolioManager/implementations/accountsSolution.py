@@ -16,7 +16,7 @@ from interfaces.securityInterface import securityInterface
 from interfaces.accountInterface import accountInterface
 from interfaces.positionInterface import positionInterface
 from typing import Any, Dict, Set, Iterable
-class accounts(accountInterface):
+class account(accountInterface):
     def __init__(self, positions: Set[positionInterface], accountName: str) -> None:
         self.accountName = accountName
         self.positions = positions

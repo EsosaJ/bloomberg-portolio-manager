@@ -14,11 +14,9 @@
 
 import os
 import sys
-module_path = os.path.abspath('..')
-if module_path not in sys.path:
-    sys.path.append(module_path)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'PortfolioManager')))
 
-from implementations.accountSolution import account
+from implementations.accountsSolution import account
 from implementations.positionSolution import position
 import implementations.portfolioSolution
 import pytest
@@ -150,7 +148,7 @@ def test_AddAccountOverwrite():
         "Account A": ACCOUNT_A_POSITIONS,
         "Account B": ACCOUNT_B_POSITIONS_NEW
     }
-    p.addAccounts([ACCOUNT_B_NEW])
+    p.addAccounts(set([ACCOUNT_B_NEW]))
 
     #EXPECT
     ALL_ACCS = p.getAllAccounts()

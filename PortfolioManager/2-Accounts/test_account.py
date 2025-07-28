@@ -20,7 +20,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 import pytest
 from implementations.securitySolution import security
 from implementations.positionSolution import position
-from implementations.accountsSolution import accounts
+from implementations.accountsSolution import account
 
 def test_getAccountName():
     #GIVEN
@@ -28,7 +28,7 @@ def test_getAccountName():
     EXPECTED_POSITIONS = set()
 
     #WHEN 
-    testObj = accounts(EXPECTED_POSITIONS, EXPECTED_NAME)
+    testObj = account(EXPECTED_POSITIONS, EXPECTED_NAME)
 
     #EXPECT 
     assert(testObj.getName() == EXPECTED_NAME)
@@ -41,7 +41,7 @@ def test_getAllPositions():
     EXPECTED_POSITIONS.add(position("TEST_SEC_B", 2000))
 
     #WHEN 
-    testObj = accounts(EXPECTED_POSITIONS, EXPECTED_NAME)
+    testObj = account(EXPECTED_POSITIONS, EXPECTED_NAME)
     returnPosItr = testObj.getAllPositions()
 
     #EXPECT
@@ -77,7 +77,7 @@ def test_getPositions():
     }
 
     # WHEN
-    testObj = accounts(EXPECTED_POSITIONS, EXPECTED_NAME)
+    testObj = account(EXPECTED_POSITIONS, EXPECTED_NAME)
     returnPosItr = testObj.getPositions(KEY_LIST)
 
     # EXPECT
@@ -106,7 +106,7 @@ def test_addPositions():
     }
 
     #WHEN 
-    testObj = accounts(START_POSITIONS, EXPECTED_NAME)
+    testObj = account(START_POSITIONS, EXPECTED_NAME)
     testObj.addPositions(UPDATE_POSITIONS)
     returnPosItr = testObj.getAllPositions()
 
@@ -132,7 +132,7 @@ def test_removePositions():
     }
 
     #WHEN 
-    testObj = accounts(START_POSITIONS, EXPECTED_NAME)
+    testObj = account(START_POSITIONS, EXPECTED_NAME)
     testObj.removePositions(REMOVE_POSITIONS)
     returnPosItr = testObj.getAllPositions()
 

@@ -63,6 +63,7 @@ class account(accountInterface):
         # if self.positions contains position then set position to that position 
         #  else 
         # add that position 
+        
         pass
     
     #Remove a number of positions from this account if they represent a security in a given input set
