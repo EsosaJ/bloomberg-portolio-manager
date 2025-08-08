@@ -16,7 +16,8 @@
 from typing import Set, Iterable, Optional, Dict
 from interfaces.portfolioInterface import portfolioInterface
 from interfaces.accountInterface import accountInterface
-
+from generators.priceDataGenerator import priceData
+pd = priceData()
 class portfolio(portfolioInterface):
     # initialise the protfolio name and its the accounts inside the portfolio
     def __init__(self, portfolioName: str, accounts: Set[accountInterface]) -> None:
@@ -43,7 +44,6 @@ class portfolio(portfolioInterface):
         return result
 
     def addAccounts(self, accounts: Set[accountInterface]) -> None:
-        
         for account in accounts:
             self.accounts[account.getName()] = account
         #adds an entry if doesn't exist or replaces it 
@@ -51,3 +51,37 @@ class portfolio(portfolioInterface):
     def removeAccounts(self, accountNames: Set[str]) -> None:
         for name in accountNames:
             self.accounts.pop(name,None)
+
+    def getCurrentMarketValue(self) -> float:
+        qty = {}
+        for account in self.accounts.values():
+            for pos in account.getAllPositions():
+                name = pos.getSecurity().getName()
+                qty[name] = qty.get(name, 0) + pos.getPosition()
+        
+        total = 0.0
+        for name, amount in qty.items():
+            total += pd.getCurrentPrice(name) * amount
+        return total
+
+    def getCurrentFilteredMarketValue(self, securities: Set, accountNames: Set[str]) -> float: 
+        total = 0.0
+        sec_filter = None if not securities else {
+            (s if isinstance(s, str) else s.getName()) for s in securities
+        }
+        acc_filter = None if not accountNames else set(accountNames)
+
+        qty = {}
+        for account in self.accounts.values(): 
+            if acc_filter is not None and account.getName() not in acc_filter:
+                continue
+            for pos in account.getAllPositions(): #go through all pos under that acc name 
+                # Create a dictionary of that security and get the amount of that spefific sec and then at end get the current val and 
+                # multiply 
+                name = pos.getSecurity().getName()
+                if sec_filter is None or name in sec_filter:
+                    qty[name] = qty.get(name, 0) + pos.getPosition()
+
+        for name, amount in qty.items():
+            total += pd.getCurrentPrice(name) * amount            
+        return total

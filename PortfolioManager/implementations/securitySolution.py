@@ -1,5 +1,7 @@
 from interfaces.securityInterface import securityInterface
+from generators.priceDataGenerator import priceData
 
+pd = priceData()
 class security(securityInterface):
     def __init__(self, name: str) -> None:
         self.name = name
@@ -12,6 +14,9 @@ class security(securityInterface):
 
     def __str__(self) -> str:
         return f"Security: {self.name}"
+    
+    def getCurrentMarketValue(self) -> float:
+        return pd.getCurrentPrice(self.name)
     
     # def __eq__(self, other):
     #     return isinstance(other, security) and self.name == other.name

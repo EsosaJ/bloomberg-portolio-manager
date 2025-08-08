@@ -16,6 +16,8 @@ from interfaces.securityInterface import securityInterface
 from interfaces.accountInterface import accountInterface
 from interfaces.positionInterface import positionInterface
 from typing import Any, Dict, Set, Iterable
+from generators.priceDataGenerator import priceData
+pd = priceData()
 class account(accountInterface):
     def __init__(self, positions: Set[positionInterface], accountName: str) -> None:
         self.accountName = accountName
@@ -80,3 +82,35 @@ class account(accountInterface):
             if position.getSecurity().getName() in names_to_remove:
                 to_remove.add(position)
         self.positions.difference_update(to_remove)
+        
+    def getCurrentMarketValue(self) -> float: 
+        # go through positions set get that current market value of the positions and add it to the result?? 
+        total = 0.0
+        qty = {}
+        for position in self.positions:
+          name = position.getSecurity().getName()
+          qty[name] = qty.get(name, 0) + position.getPosition() #get the quantity of security 
+
+        for name, amount in qty.items():
+            total += pd.getCurrentPrice(name) * amount
+        return total
+    
+    def getCurrentFilteredMarketValue(self, securities: Set) -> float:
+        total = 0.0 
+        allowed = None if not securities else{ 
+            (s if isinstance(s, str) else s.getName()) for s in securities
+        }
+        # if they gave us an empty set then return all positions else get all the names in the securities 
+
+        qty = {}
+
+        for position in self.positions:
+            name = position.getSecurity().getName()
+            if allowed is None or name in allowed:
+                qty[name] = qty.get(name, 0) + position.getPosition()
+        total = 0
+        for name, amount in qty.items():
+            total += pd.getCurrentPrice(name) * amount
+        # get the amount of shares of a specific stock first then get the current price of security and return 
+        return total
+    

@@ -33,3 +33,6 @@ class portfolioInterface():
 
     def removeAccounts(self, accountNames: Set[str]) -> None:
         pass
+
+    def getCurrentMarketValue(self) -> float:
+        pass

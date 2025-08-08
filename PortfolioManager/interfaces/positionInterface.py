@@ -14,6 +14,7 @@
 
 #Position Class Interface. 
 from .securityInterface import securityInterface
+# from generators.priceDataGenerator import pri
 class positionInterface():
     def __init__(self, security, initialPosition: int) -> None:
         pass
@@ -29,4 +30,7 @@ class positionInterface():
     
     #Add an integer amount to the current position.
     def addPosition(self, inputValue: int) -> None:
+        pass
+    
+    def getCurrentMarketValue(self) -> float:
         pass

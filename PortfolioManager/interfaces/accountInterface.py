@@ -37,3 +37,9 @@ class accountInterface():
     #Remove a number of positions from this account if they represent a security in a given input set
     def removePositions(self, securities: Set) -> None:
         pass
+
+    def getCurrentMarketValue(self) -> float:
+        pass
+
+    def getCurrentFilteredMarketValue(self, securities: Set) -> float:
+        pass

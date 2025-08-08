@@ -15,15 +15,14 @@
 import os
 import sys
 
-module_path = os.path.abspath('..')
-if module_path not in sys.path:
-    sys.path.append(module_path)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'PortfolioManager')))
 
 import implementations.portfolioSolution
 import implementations.securitySolution
 import implementations.positionSolution
-import implementations.accountSolution
+import implementations.accountsSolution 
 from generators.priceDataGenerator import priceData
+
 
 def createPortfolioAccounts():
     ACCOUNT_A_POSITIONS = [
@@ -39,8 +38,8 @@ def createPortfolioAccounts():
         implementations.positionSolution.position("DLTA US Equity", 623)
     ]
 
-    ACCOUNT_A = implementations.accountSolution.account(ACCOUNT_A_POSITIONS, "Account A")
-    ACCOUNT_B = implementations.accountSolution.account(ACCOUNT_B_POSITIONS, "Account B")
+    ACCOUNT_A = implementations.accountsSolution.account(ACCOUNT_A_POSITIONS, "Account A")
+    ACCOUNT_B = implementations.accountsSolution.account(ACCOUNT_B_POSITIONS, "Account B")
 
     ACCOUNTS = {
         "Account A": ACCOUNT_A,
@@ -48,6 +47,8 @@ def createPortfolioAccounts():
     }
 
     return ACCOUNTS
+
+
 
 def test_securityValueGather():
     #GIVEN
@@ -68,7 +69,8 @@ def test_PositionMarketValue():
     EXPECTED_POSITION_AMOUNT = 1000
     DATA_SOURCE = priceData()
     DATA_SOURCE.clearPriceHistory()
-
+    
+    
     #WHEN
     testObj = implementations.positionSolution.position(EXPECTED_NAME, EXPECTED_POSITION_AMOUNT)
     MV = testObj.getCurrentMarketValue()
@@ -88,7 +90,7 @@ def test_SecuritySearchAccountMV():
     ]
     SEARCH_SECURITIES_LIST =  ["IBM US Equity", implementations.securitySolution.security("NVDA US Equity"), "MSFT US Equity"]
     SEARCH_SECURITIES_TUPLE = [["IBM US Equity", 530], ["NVDA US Equity", 7421]]
-    testObj = implementations.accountSolution.account(EXPECTED_ACCOUNT_POSITIONS, "Test Account")
+    testObj = implementations.accountsSolution.account(EXPECTED_ACCOUNT_POSITIONS, "Test Account")
 
     #WHEN
     MV = testObj.getCurrentFilteredMarketValue(SEARCH_SECURITIES_LIST)
@@ -108,7 +110,7 @@ def test_TotalAccountMV():
     ]
     DATA_SOURCE = priceData()
     DATA_SOURCE.clearPriceHistory()
-    testObj = implementations.accountSolution.account(EXPECTED_ACCOUNT_POSITIONS, "Test Account")
+    testObj = implementations.accountsSolution.account(EXPECTED_ACCOUNT_POSITIONS, "Test Account")
 
     #WHEN
     MV = testObj.getCurrentMarketValue()
@@ -132,6 +134,7 @@ def test_TotalPortfolioMV():
 
     DATA_SOURCE = priceData()
     DATA_SOURCE.clearPriceHistory()
+    # populatePrices(DATA_SOURCE, POSITION_MAP_TOTAL)
     testObj = implementations.portfolioSolution.portfolio(PORTFOLIO_NAME, ACCOUNTS.values())
 
     MV_TOTAL = testObj.getCurrentMarketValue()
@@ -174,6 +177,9 @@ def test_FilteredPortfolioMVs():
     DATA_SOURCE = priceData()
     DATA_SOURCE.clearPriceHistory()
     testObj = implementations.portfolioSolution.portfolio(PORTFOLIO_NAME, ACCOUNTS.values())
+    # populatePrices(DATA_SOURCE, POSITION_MAP_TOTAL_ACC)
+    # populatePrices(DATA_SOURCE, POSITION_MAP_TOTAL_SECURITY)
+    # populatePrices(DATA_SOURCE, POSITION_MAP_TOTAL_SECURITY_ACC)
 
     #WHEN
     MV_ACC = testObj.getCurrentFilteredMarketValue([], [ACC_FILTER])
